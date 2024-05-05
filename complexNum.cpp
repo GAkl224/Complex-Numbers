@@ -10,31 +10,47 @@ private:
     float imaginary;
 
 public:
-    
-    ComplexNumber(float Real, float Imaginary) : real(Real), imaginary(Imaginary) {}
+   
+    ComplexNumber(float realPart, float imaginaryPart) : real(realPart), imaginary(imaginaryPart) {}
 
     // addition
     ComplexNumber add(const ComplexNumber& other) const {
-
         return ComplexNumber(real + other.real, imaginary + other.imaginary);
     }
 
     // subtraction
     ComplexNumber subtract(const ComplexNumber& other) const {
-
         return ComplexNumber(real - other.real, imaginary - other.imaginary);
+    }
+
+    // negation
+    ComplexNumber negate() const {
+        return ComplexNumber(-real, -imaginary);
     }
 
     // magnitude
     float magnitude() const {
-
         return sqrt(real * real + imaginary * imaginary);
     }
 
-    
-    string prettyPrint() const {
+    // conjugation
+    ComplexNumber conjugate() const {
+        return ComplexNumber(real, -imaginary);
+    }
 
-        return to_string(real) + " + " + to_string(imaginary) + "i";
+    // real part
+    float realPart() const {
+        return real;
+    }
+
+    // imaginary part
+    float imaginaryPart() const {
+        return imaginary;
+    }
+
+    // pretty print
+    void prettyPrint() const {
+        cout << real << " + " << imaginary << "i";
     }
 };
 
@@ -46,40 +62,73 @@ public:
     
     ComplexList(const vector<ComplexNumber>& numbersList) : numbers(numbersList) {}
 
-    //sum
+    // Sum method
     ComplexNumber sum() const {
         ComplexNumber result(0, 0);
-
         for (const auto& num : numbers) {
-
             result = result.add(num);
         }
         return result;
     }
 };
 
+
+
 int main() {
+    ComplexNumber one = ComplexNumber(3.76, 3.98);
+    ComplexNumber two = ComplexNumber(2.58, 7.1);
+
     
-    ComplexNumber one = ComplexNumber(5.64, 7.0);
-    ComplexNumber two = ComplexNumber(2.3, 1.1);
+    ComplexNumber addition = one.add(two);
 
-    ComplexNumber three = one.add(two);
+    cout << "Addition: ";
+    addition.prettyPrint();
+    cout << endl;
 
-    cout << three.prettyPrint() << endl; 
+    
+    ComplexNumber subtraction =one.subtract(two);
 
-    ComplexNumber four = one.subtract(two);
+    cout << "Subtraction: ";
+    subtraction.prettyPrint();
+    cout << endl;
 
-    cout << four.prettyPrint() << endl; 
+    
+    ComplexNumber negation = one.negate();
 
+    cout << "Negation: ";
+    negation.prettyPrint();
+    cout << endl;
+
+    
     float magnitude = one.magnitude();
 
-    cout << magnitude << endl; 
+    cout << "Magnitude: " << magnitude << endl;
 
-    ComplexList list({one, two, three, four});
     
-    ComplexNumber sum = list.sum();
+    ComplexNumber conjugation = one.conjugate();
 
-    cout << sum.prettyPrint() << endl; 
+    cout << "Conjugation: ";
+    conjugation.prettyPrint();
+    cout << endl;
+
     
+    float real = one.realPart();
+    cout << "Real part: " << real << endl;
+
+    
+    float imaginary = one.imaginaryPart();
+    cout << "Imaginary part: " << imaginary << endl;
+
+    
+    cout << "Pretty print: ";
+    one.prettyPrint();
+    cout << endl;
+
+    
+    vector<ComplexNumber> complexNum = {one, two, addition, subtraction};
+    ComplexList complex_list(complexNum);
+    cout << "Sum of complex numbers: ";
+    complex_list.sum().prettyPrint();
+    cout << endl;
     return 0;
 }
