@@ -10,7 +10,6 @@ private:
     float imaginary;
 
 public:
-   
     ComplexNumber(float realPart, float imaginaryPart) : real(realPart), imaginary(imaginaryPart) {}
 
     // addition
@@ -59,7 +58,6 @@ private:
     vector<ComplexNumber> numbers;
 
 public:
-    
     ComplexList(const vector<ComplexNumber>& numbersList) : numbers(numbersList) {}
 
     // Sum method
@@ -70,16 +68,28 @@ public:
         }
         return result;
     }
+
+    // combine lists method
+    static ComplexList combineLists(const ComplexList& list1, const ComplexList& list2) {
+        vector<ComplexNumber> combinedNumbers;
+        combinedNumbers.reserve(list1.numbers.size() + list2.numbers.size());
+        combinedNumbers.insert(combinedNumbers.end(), list1.numbers.begin(), list1.numbers.end());
+        combinedNumbers.insert(combinedNumbers.end(), list2.numbers.begin(), list2.numbers.end());
+        return ComplexList(combinedNumbers);
+    }
+
+    
+    vector<ComplexNumber> getNumbers() const {
+        return numbers;
+    }
 };
-
-
 
 int main() {
     ComplexNumber one = ComplexNumber(3.76, 3.98);
     ComplexNumber two = ComplexNumber(2.58, 7.1);
+    ComplexNumber three = ComplexNumber(1.2, 5.3);
 
-    
-    ComplexNumber addition = one.add(two);
+      ComplexNumber addition = one.add(two);
 
     cout << "Addition: ";
     addition.prettyPrint();
@@ -130,5 +140,17 @@ int main() {
     cout << "Sum of complex numbers: ";
     complex_list.sum().prettyPrint();
     cout << endl;
+
+    ComplexList complexList1({one, two});
+    ComplexList complexList2({three});
+
+    ComplexList combinedList = ComplexList::combineLists(complexList1, complexList2);
+
+    cout << "Combined list:" << endl;
+    for (const auto& num : combinedList.getNumbers()) {
+        num.prettyPrint();
+        cout << endl;
+    }
+
     return 0;
 }
